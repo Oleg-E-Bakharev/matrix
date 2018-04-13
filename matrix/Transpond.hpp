@@ -10,12 +10,15 @@
 #ifndef transpond_h
 #define transpond_h
 
+#include "Equitable.hpp"
 #include "MatrixAdapter.hpp"
 
 namespace LA {
     
     // Транспонированная строка. т.е. столбец.
-    template <typename Matrix> class TranspondRow {
+    template <typename Matrix> class TranspondRow : public
+    VectorEquitable<TranspondRow<Matrix>>
+    {
         Matrix& _mat;
     public:
         using reference = typename Matrix::reference;
@@ -30,7 +33,9 @@ namespace LA {
     
     //////////////////////////////////////////////////////////////////////
     // Транспонированный столбец. т.е. строка.
-    template <typename Matrix> class TranspondCol {
+    template <typename Matrix> class TranspondCol : public
+    VectorEquitable<TranspondCol<Matrix>>
+    {
         Matrix& _mat;
     public:
         using reference = typename Matrix::reference;

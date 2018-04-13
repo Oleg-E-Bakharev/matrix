@@ -17,7 +17,9 @@ using namespace std;
 using namespace LA;
 
 void testMatrix() {
-    Matrix<int> m{
+    using M = Matrix<int>;
+    using V = vector<int>;
+    M m{
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}};
@@ -27,7 +29,7 @@ void testMatrix() {
     cout << m;
     cout << "Transpond:\n"<< transpond(m);
     auto m1 = transpond(m);
-    assert(m1 == Matrix<int>({
+    assert(m1 ==M({
         {1, 4, 7},
         {2, 10, 8},
         {3, 6, 9}
@@ -38,14 +40,18 @@ void testMatrix() {
 
     auto m2 = minor(m, 1, 1);
     cout << "col 1:" << m2.col(1);
-//    assert(m2.col(1) == vector<int>({1, 3}));
+    assert(m2.col(1) == V({3, 9}));
     cout << "row 1:" <<  m2.row(1);
-    assert(m2 == Matrix<int>({{1, 3}, {7, 9}}));
+    assert(m2.row(1) == V({7, 9}));
+    assert(m2 == M({{1, 3}, {7, 9}}));
 
     cout << "\nMinor transpond:\n" << minor(transpond(m), 1, 1);
     
     auto m3 = minor(transpond(m), 1, 1);
     m3[1][1] = 99;
+    
+    auto m5 = m3.clone();
+    cout << m5;
     
     cout << "Minor transpond modified:\n" << m3;
     cout << "Initial matrix after transpond minor changed:\n" << m;
@@ -55,9 +61,9 @@ void testMatrix() {
     assert(m4 == Matrix<int>({{99}}));
     assert(minorEx(m, 1, 1, 2) == Matrix<int>({{1}}));
     
-    Matrix<int> m5(std::move(m));
+    Matrix<int> m6(std::move(m));
     
-    cout << m5;
+    cout << m6;
 //    cout << m * m;
 //
 //    cout << m * m1;

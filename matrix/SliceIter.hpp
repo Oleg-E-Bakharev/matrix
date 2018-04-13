@@ -11,12 +11,14 @@
 
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
+#include "Equitable.hpp"
 #include <valarray>
 
 // А-ля Страуструп: http://www.stroustrup.com/matrix.c
 template<typename Container> class SliceIter :
 public ForIterable<SliceIter<Container>>,
-public VectorOstreamable<SliceIter<Container>>
+public VectorOstreamable<SliceIter<Container>>,
+public VectorEquitable<SliceIter<Container>>
 {
     Container& v;
     std::slice s;
@@ -29,7 +31,6 @@ public:
     using const_reference = typename Container::const_reference;
     SliceIter(Container& v, std::slice s) : v(v), s(s) {}
     
-    
     size_t size() const { return s.size(); }
     const_reference operator[](size_t i) const { return ref(i); }
     reference operator[](size_t i) { return ref(i); }
@@ -39,7 +40,8 @@ public:
 // То же но, константное.
 template<typename Container> class ConstSliceIter :
 public ForIterable<ConstSliceIter<Container>>,
-public VectorOstreamable<ConstSliceIter<Container>>
+public VectorOstreamable<ConstSliceIter<Container>>,
+public VectorEquitable<SliceIter<Container>>
 {
     const Container& v;
     std::slice s;

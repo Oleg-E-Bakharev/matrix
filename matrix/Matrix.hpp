@@ -13,6 +13,7 @@
 #include <initializer_list>
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
+#include "Equitable.hpp"
 #include "SliceIter.hpp"
 
 namespace LA {
@@ -20,7 +21,8 @@ namespace LA {
     // Матрица
     template <typename Container> class Matrix_T :
     public ForIterable<Matrix_T<Container>>,
-    public MatrixOstreamable<Matrix_T<Container>>
+    public MatrixOstreamable<Matrix_T<Container>>,
+    public MatrixEquitable<Matrix_T<Container>>
     {
         size_t _h;
         size_t _w;
@@ -38,6 +40,7 @@ namespace LA {
         Matrix_T(size_t w, size_t h, T def) : _h(h), _w(w), _m(w * h, def) {}
         
         explicit Matrix_T(const Matrix_T&) = default;
+        Matrix_T(Matrix_T&&) = default;
         
         Matrix_T(std::initializer_list<std::initializer_list<T>> l) : _h(l.size()),
         _w(_h > 0 ? l.begin()->size() : 0),
@@ -65,19 +68,7 @@ namespace LA {
         reference operator[] (size_t y) { return row(y); }
         const_reference operator[] (size_t y) const { return row(y); }
         
-        size_t size() const { return _h; }
-        
-        // Оператор сравнения с любой другой матрицей, в т.ч. реализованной другим классом.
-        template <class Other> bool operator==(const Other& m) const {
-            if (width() != m.width()) return false;
-            if (height() != m.height()) return false;
-            for ( size_t i = 0; i < height(); i++ ) {
-                for ( size_t j = 0; j < width(); j++ ) {
-                    if ((*this)[i][j] != m[i][j]) return false;
-                }
-            }
-            return true;
-        }
+        size_t size() const { return _h; }        
     };
     
     template <typename T>

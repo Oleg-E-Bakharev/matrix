@@ -5,7 +5,7 @@
 //  Created by Oleg Bakharev on 13/04/2018.
 //  Copyright © 2018 Oleg Bakharev. All rights reserved.
 //
-//  Адаптер контейнеров для вывода в std::ostream
+//  Аспект класса для вывода в std::ostream
 
 #ifndef Ostreamable_h
 #define Ostreamable_h

@@ -12,13 +12,15 @@
 
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
+#include "Equitable.hpp"
 
 namespace LA {
     
     // Matrix: матрица или другой адаптер.
     template<typename Matrix, typename RowSlice, typename ColSlice> class MatrixAdapter :
     public ForIterable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
-    public MatrixOstreamable<MatrixAdapter<Matrix, RowSlice, ColSlice>>
+    public MatrixOstreamable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
+    public MatrixEquitable<MatrixAdapter<Matrix, RowSlice, ColSlice>>
     {
         ColSlice _colSlice;
         RowSlice _rowSlice;
@@ -52,18 +54,6 @@ namespace LA {
                 }
             }
             return instance;
-        }
-        
-        // Оператор сравнения с любой другой матрицей, в т.ч. реализованной другим классом.
-        template <class Other> bool operator==(const Other& m) const {
-            if (width() != m.width()) return false;
-            if (height() != m.height()) return false;
-            for ( size_t i = 0; i < height(); i++ ) {
-                for ( size_t j = 0; j < width(); j++ ) {
-                    if (row(i)[j] != m[i][j]) return false;
-                }
-            }
-            return true;
         }
     };
     
