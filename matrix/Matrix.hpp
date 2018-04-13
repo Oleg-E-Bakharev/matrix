@@ -56,11 +56,11 @@ namespace LA {
         size_t width() const { return _w; }
         size_t height() const { return _h; }
         
-        reference col(size_t x) { return reference( _m, std::slice(x, _h, _w) ); }
-        const_reference col(size_t x) const { return const_reference( _m, std::slice(x, _h, _w) ); }
+        reference col(size_t x) { return { _m, std::slice(x, _h, _w) }; }
+        const_reference col(size_t x) const { return { _m, std::slice(x, _h, _w) }; }
         
-        reference row(size_t y) { return reference( _m, std::slice( y * _w, _w, 1) ); }
-        const_reference row(size_t y) const { return const_reference( _m, std::slice(y * _w, _w, 1) ); }
+        reference row(size_t y) { return { _m, std::slice( y * _w, _w, 1) }; }
+        const_reference row(size_t y) const { return { _m, std::slice(y * _w, _w, 1) }; }
         
         reference operator[] (size_t y) { return row(y); }
         const_reference operator[] (size_t y) const { return row(y); }
