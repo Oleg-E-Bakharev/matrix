@@ -15,9 +15,9 @@
 
 template <typename Matrix> class MatrixOstreamable {
 public:
-    // Вывод в поток
+    // Вывод в поток матрицы
     friend std::ostream& operator << (std::ostream& os, const Matrix& m) {
-        for( const auto row : m ) {
+        for (auto row : m) {
             os << row;
         }
         return os << "\n\n";
@@ -26,9 +26,9 @@ public:
 
 template <typename Vector> class VectorOstreamable {
 public:
-    // Вывод в поток
+    // Вывод в поток вектора
     friend std::ostream& operator << (std::ostream& os, const Vector& v) {
-        for (auto x : v ) {
+        for (auto x : v) {
             os << std::setw(2) << x << ", ";
         }
         return os << "\n";
