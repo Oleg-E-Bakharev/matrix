@@ -5,6 +5,7 @@
 //  Created by Oleg Bakharev on 11/04/2018.
 //  Copyright © 2018 Oleg Bakharev. All rights reserved.
 //
+//  Срез-итератор. А-ля Страуструп: http://www.stroustrup.com/matrix.c
 
 #ifndef SliceIter_h
 #define SliceIter_h
@@ -14,7 +15,7 @@
 #include "Equitable.hpp"
 #include <valarray>
 
-// А-ля Страуструп: http://www.stroustrup.com/matrix.c
+// Срез-итератор. А-ля Страуструп: http://www.stroustrup.com/matrix.c
 template<typename Container> class SliceIter :
 public ForIterable<SliceIter<Container>>,
 public VectorOstreamable<SliceIter<Container>>,

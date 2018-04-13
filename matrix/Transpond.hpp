@@ -30,7 +30,23 @@ namespace LA {
         reference operator()(size_t i) { return _mat.col(i); }
         const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).col(i); }
     };
-    
+
+    // Транспонированная строка. т.е. столбец.
+    template <typename Matrix> class TranspondRow<Matrix&&> : public
+    VectorEquitable<TranspondRow<Matrix>>
+    {
+        Matrix _mat;
+    public:
+        using reference = typename Matrix::reference;
+        using const_reference = typename Matrix::const_reference;
+        
+        TranspondRow(Matrix&& m) : _mat(m) {}
+        
+        size_t size() const { return _mat.height(); }
+        reference operator()(size_t i) { return _mat.col(i); }
+        const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).col(i); }
+    };
+
     //////////////////////////////////////////////////////////////////////
     // Транспонированный столбец. т.е. строка.
     template <typename Matrix> class TranspondCol : public
@@ -48,10 +64,26 @@ namespace LA {
         const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).row(i); }
     };
     
+    template <typename Matrix> class TranspondCol<Matrix&&> : public
+    VectorEquitable<TranspondCol<Matrix>>
+    {
+        Matrix _mat;
+    public:
+        using reference = typename Matrix::reference;
+        using const_reference = typename Matrix::const_reference;
+        
+        TranspondCol(Matrix&& m) : _mat(m) {}
+        
+        size_t size() const { return _mat.width(); }
+        reference operator()(size_t i) { return _mat.row(i); }
+        const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).row(i); }
+    };
+
     template <typename Matrix>
     MatrixAdapter<Matrix, TranspondRow<Matrix>, TranspondCol<Matrix>>  transpond(Matrix& m) {
         return {{m}, {m}};
-    }    
+    }
+    
 
 } // namespace LA
     

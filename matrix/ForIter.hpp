@@ -29,6 +29,7 @@ public:
 template<class Collection> ForIter<Collection> forIter(Collection& col) { return {col}; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// То же но константный.
 template <typename Collection> class ConstForIter {
     const Collection& _col;
     size_t _pos;
@@ -44,4 +45,3 @@ public:
 template<class Collection> ConstForIter<Collection> constForIter(Collection& col) { return {col}; }
 
 #endif /* for_iter_h */
-

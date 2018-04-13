@@ -29,7 +29,7 @@ void testMatrix() {
     cout << m;
     cout << "Transpond:\n"<< transpond(m);
     auto m1 = transpond(m);
-    assert(m1 ==M({
+    assert(m1 == M({
         {1, 4, 7},
         {2, 10, 8},
         {3, 6, 9}

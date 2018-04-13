@@ -5,7 +5,7 @@
 //  Created by Oleg Bakharev on 11/04/2018.
 //  Copyright © 2018 Oleg Bakharev. All rights reserved.
 //
-//  Аспект класса для ForIter
+//  Аспект класса для Range-based for.
 
 #ifndef ForIterable_h
 #define ForIterable_h

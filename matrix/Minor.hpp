@@ -14,6 +14,7 @@
 #include "Ostreamable.hpp"
 #include "Equitable.hpp"
 #include "MatrixAdapter.hpp"
+#include <utility>
 
 namespace LA {
     
@@ -66,6 +67,26 @@ namespace LA {
         const_reference operator()(size_t i) const { return {(const_cast<const Matrix&>(_mat)).row(correctRow_(i)), _col}; }
     };
     
+    // То же но для инициализацией временными объектами.
+    template <typename Matrix> class MinorRow<Matrix&&> {
+        Matrix _mat;
+        size_t _row;
+        size_t _col;
+        size_t correctRow_(size_t i) const { return i < _row ? i : i + 1; }
+    public:
+        using reference = MinorIter<typename Matrix::reference>;
+        using const_reference = MinorIter<typename Matrix::const_reference>;
+        
+        MinorRow(Matrix&& m, size_t row, size_t col) : _mat(m), _row(row), _col(col) {
+            assert(m.height() >= row + 1 && m.width() >= col + 1);
+        }
+        
+        size_t size() const { return _mat.width() - 1; }
+        reference operator()(size_t i) { return {_mat.row(correctRow_(i)), _col}; }
+        const_reference operator()(size_t i) const { return {(const_cast<const Matrix&>(_mat)).row(correctRow_(i)), _col}; }
+    };
+
+    
     ///////////////////////////////////////////
     // Столбец минора.
     template <typename Matrix> class MinorCol {
@@ -86,6 +107,25 @@ namespace LA {
         const_reference operator()(size_t i) const { return {(const_cast<const Matrix&>(_mat)).col(correctCol_(i)), _row}; }
     };
     
+    // То же но для инициализацией временными объектами.
+    template <typename Matrix> class MinorCol<Matrix&&> {
+        Matrix _mat;
+        size_t _row;
+        size_t _col;
+        size_t correctCol_(size_t i) const { return i < _col ? i : i + 1; }
+    public:
+        using reference = MinorIter<typename Matrix::reference>;
+        using const_reference = MinorIter<typename Matrix::const_reference>;
+        
+        MinorCol(Matrix&& m, size_t row, size_t col) : _mat(m), _row(row), _col(col) {
+            assert(m.height() >= row + 1 && m.width() >= col + 1);
+        }
+        
+        size_t size() const { return _mat.height() - 1; }
+        reference operator()(size_t i) { return {_mat.col(correctCol_(i)), _row}; }
+        const_reference operator()(size_t i) const { return {(const_cast<const Matrix&>(_mat)).col(correctCol_(i)), _row}; }
+    };
+    
     // L-Value matrix
     template <typename Matrix>
     MatrixAdapter<Matrix, MinorRow<Matrix>, MinorCol<Matrix>> minor(Matrix& m, size_t row, size_t col) {
@@ -94,8 +134,8 @@ namespace LA {
     
     // R-Value matrix
     template <typename Matrix>
-    MatrixAdapter<Matrix, MinorRow<Matrix>, MinorCol<Matrix>> minor(Matrix&& m, size_t row, size_t col) {
-        return {{m, row, col}, {m, row, col}};
+    MatrixAdapter<Matrix, MinorRow<Matrix&&>, MinorCol<Matrix&&>> minor(Matrix&& m, size_t row, size_t col) {
+        return {{std::forward<Matrix>(m), row, col}, {std::forward<Matrix>(m), row, col}};
     }
 } // namespace LA
 

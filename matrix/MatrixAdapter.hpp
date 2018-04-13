@@ -31,6 +31,8 @@ namespace LA {
         using const_reference = typename RowSlice::const_reference;
         
         MatrixAdapter(const RowSlice& rowSlice, const ColSlice& colSlice) : _colSlice(colSlice), _rowSlice(rowSlice) {}
+        explicit MatrixAdapter(const MatrixAdapter&) = default;
+        MatrixAdapter(MatrixAdapter&&) = default;
         
         size_t width() const { return _rowSlice.size(); }
         size_t height() const {return _colSlice.size(); }
