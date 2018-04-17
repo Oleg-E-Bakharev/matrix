@@ -11,77 +11,45 @@
 #define transpond_h
 
 #include "Equitable.hpp"
+#include "Ostreamable.hpp"
 #include "MatrixAdapter.hpp"
+#include <utility>
 
 namespace LA {
     
+    ///////////////////////////////////////////////////////////////////////
     // Транспонированная строка. т.е. столбец.
-    template <typename Matrix> class TranspondRow : public
-    VectorEquitable<TranspondRow<Matrix>>
+    template <typename Matrix> class TranspondRow :
+    public VectorEquitable<TranspondRow<Matrix>>,
+    public VectorOstreamable<TranspondRow<Matrix>>
     {
-        Matrix& _mat;
     public:
         using reference = typename Matrix::reference;
         using const_reference = typename Matrix::const_reference;
-        
-        TranspondRow(Matrix& m) : _mat(m) {}
-        
-        size_t size() const { return _mat.height(); }
-        reference operator()(size_t i) { return _mat.col(i); }
-        const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).col(i); }
+
+        size_t size(const Matrix& m) const { return m.height(); }
+        reference operator()(Matrix& m, size_t i) { return m.col(i); }
+        const_reference operator()(const Matrix& m, size_t i) const { return m.col(i); }
     };
 
-    // Транспонированная строка. т.е. столбец.
-    template <typename Matrix> class TranspondRow<Matrix&&> : public
-    VectorEquitable<TranspondRow<Matrix>>
-    {
-        Matrix _mat;
-    public:
-        using reference = typename Matrix::reference;
-        using const_reference = typename Matrix::const_reference;
-        
-        TranspondRow(Matrix&& m) : _mat(m) {}
-        
-        size_t size() const { return _mat.height(); }
-        reference operator()(size_t i) { return _mat.col(i); }
-        const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).col(i); }
-    };
-
-    //////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////
     // Транспонированный столбец. т.е. строка.
-    template <typename Matrix> class TranspondCol : public
-    VectorEquitable<TranspondCol<Matrix>>
+    template <typename Matrix> class TranspondCol :
+    public VectorEquitable<TranspondCol<Matrix>>,
+    public VectorOstreamable<TranspondRow<Matrix>>
     {
-        Matrix& _mat;
     public:
         using reference = typename Matrix::reference;
         using const_reference = typename Matrix::const_reference;
         
-        TranspondCol(Matrix& m) : _mat(m) {}
-        
-        size_t size() const { return _mat.width(); }
-        reference operator()(size_t i) { return _mat.row(i); }
-        const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).row(i); }
+        size_t size(const Matrix& m) const { return m.width(); }
+        reference operator()(Matrix& m, size_t i) { return m.row(i); }
+        const_reference operator()(const Matrix& m, size_t i) const { return m.row(i); }
     };
     
-    template <typename Matrix> class TranspondCol<Matrix&&> : public
-    VectorEquitable<TranspondCol<Matrix>>
-    {
-        Matrix _mat;
-    public:
-        using reference = typename Matrix::reference;
-        using const_reference = typename Matrix::const_reference;
-        
-        TranspondCol(Matrix&& m) : _mat(m) {}
-        
-        size_t size() const { return _mat.width(); }
-        reference operator()(size_t i) { return _mat.row(i); }
-        const_reference operator()(size_t i) const { return (const_cast<const Matrix&>(_mat)).row(i); }
-    };
-
-    template <typename Matrix>
-    MatrixAdapter<Matrix, TranspondRow<Matrix>, TranspondCol<Matrix>>  transpond(Matrix& m) {
-        return {{m}, {m}};
+    template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
+    inline MatrixAdapter<Matrix&&, TranspondRow<ClearMatrix>, TranspondCol<ClearMatrix>> transpond(Matrix&& m) {
+        return {std::forward<Matrix>(m), {}, {}};
     }
     
 

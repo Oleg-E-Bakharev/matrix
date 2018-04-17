@@ -10,6 +10,8 @@
 #ifndef matrix_adapter_h
 #define matrix_adapter_h
 
+#include "Debug.hpp"
+#include "CopylessHolder.hpp"
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
 #include "Equitable.hpp"
@@ -17,33 +19,38 @@
 namespace LA {
     
     // Matrix: матрица или другой адаптер.
-    template<typename Matrix, typename RowSlice, typename ColSlice> class MatrixAdapter :
+    template<typename Matrix, typename RowSlice, typename ColSlice> class MatrixAdapter : CopylessHolder<Matrix>,
     public ForIterable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
     public MatrixOstreamable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
     public MatrixEquitable<MatrixAdapter<Matrix, RowSlice, ColSlice>>
     {
+        using Base = CopylessHolder<Matrix>;
+        using Base::data;
+        using ClearMatrix = typename std::remove_reference<Matrix>::type;
+
         ColSlice _colSlice;
         RowSlice _rowSlice;
     public:
-        using instance_type = typename Matrix::instance_type;
-        using value_type = typename Matrix::value_type;
+        using instance_type = typename ClearMatrix::instance_type;
+        using value_type = typename ClearMatrix::value_type;
         using reference = typename RowSlice::reference;
         using const_reference = typename RowSlice::const_reference;
         
-        MatrixAdapter(const RowSlice& rowSlice, const ColSlice& colSlice) : _colSlice(colSlice), _rowSlice(rowSlice) {}
-        explicit MatrixAdapter(const MatrixAdapter&) = default;
-        MatrixAdapter(MatrixAdapter&&) = default;
+        MatrixAdapter(Matrix&& m, const RowSlice& rowSlice, const ColSlice& colSlice) : Base{std::forward<Matrix>(m)}, _colSlice(colSlice), _rowSlice(rowSlice) {}
+        explicit MatrixAdapter(const MatrixAdapter& m) = default;
+        MatrixAdapter(MatrixAdapter&& m) = default;
+        ~MatrixAdapter() { debugOut("~MatrixAdapter"); }
         
-        size_t width() const { return _rowSlice.size(); }
-        size_t height() const {return _colSlice.size(); }
+        size_t width() const { return _rowSlice.size(data); }
+        size_t height() const {return _colSlice.size(data); }
         
         size_t size() const { return height(); }
         
-        reference row(size_t i) { return _rowSlice(i); }
-        const_reference row(size_t i) const { return _rowSlice(i); }
+        reference row(size_t i) { return _rowSlice(data, i); }
+        const_reference row(size_t i) const { return _rowSlice(data, i); }
         
-        reference col(size_t j) { return _colSlice(j); }
-        const_reference col(size_t j) const { return _colSlice(j); }
+        reference col(size_t j) { return _colSlice(data, j); }
+        const_reference col(size_t j) const { return _colSlice(data, j); }
         
         reference operator[](size_t i) { return row(i); }
         const_reference operator[](size_t i) const { return row(i); }

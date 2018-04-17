@@ -11,7 +11,7 @@
 
 // Универсальный итератор, который преобразовывает любой random-access-iterable класс в sequence-iterable-class
 // Для использования в range-based for
-// Для использования Collection должен поддерживать [size_t] и size()
+// Для использования, Collection должен поддерживать [size_t] и size()
 // А также тип reference как ссылка на хранимый тип.
 // Через контекст можно специализировать итератор для специальных целей (напр в матрице смежности графа).
 template <typename Collection> class ForIter {

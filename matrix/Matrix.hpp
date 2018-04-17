@@ -10,6 +10,7 @@
 #define matrix_h
 
 #include <vector>
+#include <valarray>
 #include <initializer_list>
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
@@ -38,6 +39,7 @@ namespace LA {
         
         Matrix_T(size_t w, size_t h) : _h(h), _w(w), _m(w * h) {}
         Matrix_T(size_t w, size_t h, T def) : _h(h), _w(w), _m(w * h, def) {}
+        ~Matrix_T() { std::cout << "~Matrix_T\n"; }
         
         explicit Matrix_T(const Matrix_T&) = default;
         Matrix_T(Matrix_T&&) = default;

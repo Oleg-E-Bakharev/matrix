@@ -12,11 +12,13 @@
 #include "Minor.hpp"
 #include "MinorEx.hpp"
 #include <vector>
+#include "Debug.hpp"
 
 using namespace std;
 using namespace LA;
 
 void testMatrix() {
+    
     using M = Matrix<int>;
     using V = vector<int>;
     M m{
@@ -35,6 +37,7 @@ void testMatrix() {
         {3, 6, 9}
     }));
     assert(m == transpond(m1));
+    assert(m == transpond(transpond(m)));
 
     cout <<"Minor 1, 1:\n" << minor(m, 1, 1);
 
@@ -56,7 +59,7 @@ void testMatrix() {
     cout << "Minor transpond modified:\n" << m3;
     cout << "Initial matrix after transpond minor changed:\n" << m;
     
-    auto m4 = minorEx(m, 0, 0, 2);
+ /*   auto m4 = minorEx(m, 0, 0, 2);
     cout << m4;
     assert(m4 == Matrix<int>({{99}}));
     assert(minorEx(m, 1, 1, 2) == Matrix<int>({{1}}));
@@ -71,5 +74,5 @@ void testMatrix() {
 //    for (auto col : for_iter(m.cols())) {
 //        cout << col;
 //    }
-
+ */
 }
