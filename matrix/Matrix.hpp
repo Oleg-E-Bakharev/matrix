@@ -9,12 +9,14 @@
 #ifndef matrix_h
 #define matrix_h
 
+#include "Debug.hpp"
 #include <vector>
 #include <valarray>
 #include <initializer_list>
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
 #include "Equitable.hpp"
+#include "Multiplicable.hpp"
 #include "SliceIter.hpp"
 
 namespace LA {
@@ -23,7 +25,8 @@ namespace LA {
     template <typename Container> class Matrix_T :
     public ForIterable<Matrix_T<Container>>,
     public MatrixOstreamable<Matrix_T<Container>>,
-    public MatrixEquitable<Matrix_T<Container>>
+    public MatrixEquitable<Matrix_T<Container>>,
+    public MatrixMultiplicable<Matrix_T<Container>>
     {
         size_t _h;
         size_t _w;
@@ -37,9 +40,9 @@ namespace LA {
         using reference = vector; // vec это и value_type и reference.
         using const_reference = ConstSliceIter<Container>;
         
-        Matrix_T(size_t w, size_t h) : _h(h), _w(w), _m(w * h) {}
-        Matrix_T(size_t w, size_t h, T def) : _h(h), _w(w), _m(w * h, def) {}
-        ~Matrix_T() { std::cout << "~Matrix_T\n"; }
+        Matrix_T(size_t h, size_t w) : _h(h), _w(w), _m(w * h) {}
+        Matrix_T(size_t h, size_t w, T def) : _h(h), _w(w), _m(w * h, def) {}
+        ~Matrix_T() { debugOut2("~Matrix_T", 99); }
         
         explicit Matrix_T(const Matrix_T&) = default;
         Matrix_T(Matrix_T&&) = default;

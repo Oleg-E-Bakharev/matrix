@@ -12,6 +12,14 @@
 #include <assert.h>
 #include <iostream>
 
+static constexpr size_t DebugLevel = 0;
+
+#ifdef NDEBUG
+#define debugOut2(m, l) ((void)0)
+#else
+#define debugOut2(m, l) {if (l <= DebugLevel) {std::cout << m << "\n";}}
+#endif
+
 #ifdef NDEBUG
 #define debugOut(m) ((void)0)
 #else

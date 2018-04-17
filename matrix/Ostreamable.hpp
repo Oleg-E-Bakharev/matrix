@@ -13,17 +13,6 @@
 #include <iostream>
 #include <iomanip>
 
-template <typename Matrix> class MatrixOstreamable {
-public:
-    // Вывод в поток матрицы
-    friend std::ostream& operator << (std::ostream& os, const Matrix& m) {
-        for (auto row : m) {
-            os << row;
-        }
-        return os << "\n\n";
-    }
-};
-
 template <typename Vector> class VectorOstreamable {
 public:
     // Вывод в поток вектора
@@ -32,6 +21,17 @@ public:
             os << std::setw(2) << x << ", ";
         }
         return os << "\n";
+    }
+};
+
+template <typename Matrix> class MatrixOstreamable {
+public:
+    // Вывод в поток матрицы
+    friend std::ostream& operator << (std::ostream& os, const Matrix& m) {
+        for (auto row : m) {
+            os << row;
+        }
+        return os << "\n\n";
     }
 };
 

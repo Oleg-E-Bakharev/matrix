@@ -31,6 +31,7 @@
 		7C8176A9207D763A00A6A2D5 /* TestMatrix.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TestMatrix.cpp; sourceTree = "<group>"; };
 		7C8176AA207D763A00A6A2D5 /* TestMatrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TestMatrix.hpp; sourceTree = "<group>"; };
 		C34983AB2086415A00403FE9 /* Debug.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Debug.hpp; sourceTree = "<group>"; };
+		C34983AC2086574500403FE9 /* Multiplicable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Multiplicable.hpp; sourceTree = "<group>"; };
 		C3B27B77207E2DB6000D96E8 /* MatrixAdapter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixAdapter.hpp; sourceTree = "<group>"; };
 		C3B27B78207E3630000D96E8 /* Transpond.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Transpond.hpp; sourceTree = "<group>"; };
 		C3B27B79207E3D6C000D96E8 /* SliceIter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SliceIter.hpp; sourceTree = "<group>"; };
@@ -79,6 +80,7 @@
 				C3B27B7D207E7B95000D96E8 /* ForIterable.hpp */,
 				C3B27B9320810B3D000D96E8 /* Ostreamable.hpp */,
 				C3B3FB2020813B5A00C2E3B2 /* Equitable.hpp */,
+				C34983AC2086574500403FE9 /* Multiplicable.hpp */,
 				C3B3FB21208518CD00C2E3B2 /* CopylessHolder.hpp */,
 				C3B27B79207E3D6C000D96E8 /* SliceIter.hpp */,
 				7C8176A6207D75CB00A6A2D5 /* Matrix.hpp */,

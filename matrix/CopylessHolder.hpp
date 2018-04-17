@@ -19,18 +19,18 @@
 // То используется база с сылкой.
 template <typename Data> class CopylessHolder {
 public: Data& data;
-    CopylessHolder(Data& data) : data(data) { debugOut("CopylessHolder &"); }
-    CopylessHolder(const CopylessHolder& c) : data(c.data) { debugOut("CopylessHolder & copy"); }
-    CopylessHolder(CopylessHolder&& c) : data(c.data) { debugOut("CopylessHolder & move"); }
+    CopylessHolder(Data& data) : data(data) { debugOut2("CopylessHolder &", 100); }
+    CopylessHolder(const CopylessHolder& c) : data(c.data) { debugOut2("CopylessHolder & copy", 100); }
+    CopylessHolder(CopylessHolder&& c) : data(c.data) { debugOut2("CopylessHolder & move", 100); }
 };
 
 // Eсли производный класс инициализируется временным объектом (r-value - ссылка), то берётся база с экземпляром,
 // инициализирующимся move-конструктором.
 template <typename Data> class CopylessHolder<Data&&> {
 public: Data data;
-    CopylessHolder(Data&& data) : data(data) {debugOut("CopylessHolder &&");}
+    CopylessHolder(Data&& data) : data(data) {debugOut2("CopylessHolder &&", 100);}
     CopylessHolder(const CopylessHolder& c) = delete;
-    CopylessHolder(CopylessHolder&& c) : data(c.data) { debugOut("CopylessHolder && move"); }
+    CopylessHolder(CopylessHolder&& c) : data(c.data) { debugOut2("CopylessHolder && move", 100); }
 };
 
 #endif /* CopylessHolder_h */

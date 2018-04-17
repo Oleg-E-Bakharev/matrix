@@ -13,6 +13,7 @@
 #include "Equitable.hpp"
 #include "Ostreamable.hpp"
 #include "MatrixAdapter.hpp"
+#include "Multiplicable.hpp"
 #include <utility>
 
 namespace LA {
@@ -21,7 +22,8 @@ namespace LA {
     // Транспонированная строка. т.е. столбец.
     template <typename Matrix> class TranspondRow :
     public VectorEquitable<TranspondRow<Matrix>>,
-    public VectorOstreamable<TranspondRow<Matrix>>
+    public VectorOstreamable<TranspondRow<Matrix>>,
+    public VectorMultiplicable<TranspondRow<Matrix>>
     {
     public:
         using reference = typename Matrix::reference;
@@ -36,7 +38,8 @@ namespace LA {
     // Транспонированный столбец. т.е. строка.
     template <typename Matrix> class TranspondCol :
     public VectorEquitable<TranspondCol<Matrix>>,
-    public VectorOstreamable<TranspondRow<Matrix>>
+    public VectorOstreamable<TranspondRow<Matrix>>,
+    public VectorMultiplicable<TranspondRow<Matrix>>
     {
     public:
         using reference = typename Matrix::reference;

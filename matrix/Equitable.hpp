@@ -10,30 +10,30 @@
 #ifndef Equitable_h
 #define Equitable_h
 
-template <typename Matrix> class MatrixEquitable {
+template <typename Vector> class VectorEquitable {
 public:
-    // Оператор сравнения с любой другой матрицей, в т.ч. реализованной другим классом.
+    // Оператор сравнения с любым другим вектором, в т.ч. реализованным другим классом.
     template <class Other>
-    friend bool operator==(const Matrix& m1, const Other& m2) {
-        if (m1.width() != m2.width()) return false;
-        if (m1.height() != m2.height()) return false;
-        for ( size_t i = 0; i < m1.height(); i++ ) {
-            for ( size_t j = 0; j < m1.width(); j++ ) {
-                if (m1[i][j] != m2[i][j]) return false;
-            }
+    friend bool operator==(const Vector& v, const Other& o) {
+        if (v.size() != o.size()) return false;
+        for ( size_t j = 0; j < v.size(); j++ ) {
+            if (v[j] != o[j]) return false;
         }
         return true;
     }
 };
 
-template <typename Vector> class VectorEquitable {
+template <typename Matrix> class MatrixEquitable {
 public:
-    // Оператор сравнения с любым другим вектором, в т.ч. реализованным другим классом.
+    // Оператор сравнения с любой другой матрицей, в т.ч. реализованной другим классом.
     template <class Other>
-    friend bool operator==(const Vector& v1, const Other& v2) {
-        if (v1.size() != v2.size()) return false;
-        for ( size_t j = 0; j < v1.size(); j++ ) {
-            if (v1[j] != v2[j]) return false;
+    friend bool operator==(const Matrix& m, const Other& o) {
+        if (m.width() != o.width()) return false;
+        if (m.height() != o.height()) return false;
+        for ( size_t i = 0; i < m.height(); i++ ) {
+            for ( size_t j = 0; j < m.width(); j++ ) {
+                if (m[i][j] != o[i][j]) return false;
+            }
         }
         return true;
     }

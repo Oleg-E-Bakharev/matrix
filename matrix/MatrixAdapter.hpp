@@ -15,6 +15,7 @@
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
 #include "Equitable.hpp"
+#include "Multiplicable.hpp"
 
 namespace LA {
     
@@ -22,7 +23,8 @@ namespace LA {
     template<typename Matrix, typename RowSlice, typename ColSlice> class MatrixAdapter : CopylessHolder<Matrix>,
     public ForIterable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
     public MatrixOstreamable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
-    public MatrixEquitable<MatrixAdapter<Matrix, RowSlice, ColSlice>>
+    public MatrixEquitable<MatrixAdapter<Matrix, RowSlice, ColSlice>>,
+    public MatrixMultiplicable<MatrixAdapter<Matrix, RowSlice, ColSlice>>
     {
         using Base = CopylessHolder<Matrix>;
         using Base::data;
@@ -39,7 +41,7 @@ namespace LA {
         MatrixAdapter(Matrix&& m, const RowSlice& rowSlice, const ColSlice& colSlice) : Base{std::forward<Matrix>(m)}, _colSlice(colSlice), _rowSlice(rowSlice) {}
         explicit MatrixAdapter(const MatrixAdapter& m) = default;
         MatrixAdapter(MatrixAdapter&& m) = default;
-        ~MatrixAdapter() { debugOut("~MatrixAdapter"); }
+        ~MatrixAdapter() { debugOut2("~MatrixAdapter", 99); }
         
         size_t width() const { return _rowSlice.size(data); }
         size_t height() const {return _colSlice.size(data); }

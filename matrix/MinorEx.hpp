@@ -11,12 +11,18 @@
 #define MinorEx_h
 
 #include "ForIterable.hpp"
+#include "Ostreamable.hpp"
+#include "Equitable.hpp"
 #include "MatrixAdapter.hpp"
 #include <assert.h>
 
 namespace LA {
     
-    template<typename Vector> class MinorExIter : public ForIterable<MinorExIter<Vector>> {
+    template<typename Vector> class MinorExIter :
+    public ForIterable<MinorExIter<Vector>>,
+    public VectorEquitable<MinorIter<Vector>>,
+    public VectorOstreamable<MinorIter<Vector>>
+    {
         Vector _vector;
         size_t _index;
         size_t _order;
@@ -46,55 +52,47 @@ namespace LA {
     ///////////////////////////////////////////
     // Cтрока минора.
     template <typename Matrix> class MinorExRow {
-        Matrix& _mat;
         size_t _row;
         size_t _col;
         size_t _order;
+        
         size_t correctRow_(size_t i) const { return i < _row ? i : i + _order; }
         
     public:
         using reference = MinorExIter<typename Matrix::reference>;
         using const_reference = MinorExIter<typename Matrix::const_reference>;
         
-        MinorExRow(Matrix& m, size_t row, size_t col, size_t order) : _mat(m), _row(row), _col(col), _order(order) {}
+        MinorExRow(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
         
-        size_t size() const { return _mat.width() - _order; }
-        reference operator()(size_t i) { return reference(_mat.row(correctRow_(i)), _col, _order); }
-        const_reference operator()(size_t i) const { return const_reference((const_cast<const Matrix&>(_mat)).row(correctRow_(i)), _col, _order); }
+        size_t size(const Matrix& m) const { return m.width() - _order; }
+        reference operator()(Matrix& m, size_t i) { return reference(m.row(correctRow_(i)), _col, _order); }
+        const_reference operator()(const Matrix& m, size_t i) const { return const_reference(m.row(correctRow_(i)), _col, _order); }
     };
     
     ///////////////////////////////////////////
     // Столбец минора.
     template <typename Matrix> class MinorExCol {
-        Matrix& _mat;
         size_t _row;
         size_t _col;
         size_t _order;
+        
         size_t correctCol_(size_t i) const { return i < _col ? i : i + _order; }
         
     public:
         using reference = MinorExIter<typename Matrix::reference>;
         using const_reference = MinorExIter<typename Matrix::const_reference>;
         
-        MinorExCol(Matrix& m, size_t row, size_t col, size_t order) : _mat(m), _row(row), _col(col), _order(order) {
-            assert(m.height() >= row + order && m.width() >= col + order);
-        }
+        MinorExCol(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
         
-        size_t size() const { return _mat.height() - _order; }
-        reference operator()(size_t i) { return reference(_mat.col(correctCol_(i)), _row, _order); }
-        const_reference operator()(size_t i) const { return const_reference((const_cast<const Matrix&>(_mat)).col(correctCol_(i)), _row, _order); }
+        size_t size(const Matrix& m) const { return m.height() - _order; }
+        reference operator()(Matrix& m, size_t i) { return reference(m.col(correctCol_(i)), _row, _order); }
+        const_reference operator()(const Matrix& m, size_t i) const { return const_reference(m.col(correctCol_(i)), _row, _order); }
     };
     
-    // L-Value matrix
-    template <typename Matrix>
-    MatrixAdapter<Matrix, MinorExRow<Matrix>, MinorExCol<Matrix>> minorEx(Matrix& m, size_t row, size_t col, size_t order) {
-        return {{m, row, col, order}, {m, row, col, order}};
-    }
-    
-    // R-Value matrix
-    template <typename Matrix>
-    MatrixAdapter<Matrix, MinorExRow<Matrix>, MinorExCol<Matrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {
-        return {{m, row, col, order}, {m, row, col, order}};
+    template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
+    MatrixAdapter<Matrix&&, MinorExRow<ClearMatrix>, MinorExCol<ClearMatrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {
+        assert(m.height() >= row + order && m.width() >= col + order);
+        return {m, {row, col, order}, {row, col, order}};
     }
 
 } // namespace LA

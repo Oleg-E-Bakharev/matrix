@@ -12,7 +12,6 @@
 
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
-#include "CopylessHolder.hpp"
 #include "Equitable.hpp"
 #include "MatrixAdapter.hpp"
 #include <utility>
