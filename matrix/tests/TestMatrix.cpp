@@ -45,8 +45,11 @@ void testMatrix() {
     
     cout << m * transpond(m);
 
-    cout <<"Minor 1, 1:\n" << minor(m, 1, 1);
+    cout << "Minor 0, 0:\n" << minor(m, 0, 0);
+    cout << "Minor 2, 2:\n" << minor(m, 2, 2);
 
+    cout << "Minor 0, 0 * minor 2, 2:\n" << minor(m, 0, 0) * minor(m, 2, 2);
+    
     auto m2 = minor(m, 1, 1);
     cout << "col 1:" << m2.col(1);
     assert(m2.col(1) == V({3, 9}));

@@ -13,6 +13,7 @@
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
 #include "Equitable.hpp"
+#include "Multiplicable.hpp"
 #include "MatrixAdapter.hpp"
 #include <utility>
 
@@ -22,7 +23,8 @@ namespace LA {
     template<typename Vector> class MinorIter :
     public ForIterable<MinorIter<Vector>>,
     public VectorEquitable<MinorIter<Vector>>,
-    public VectorOstreamable<MinorIter<Vector>>
+    public VectorOstreamable<MinorIter<Vector>>,
+    public VectorMultiplicable<MinorIter<Vector>>
     {
         Vector _vector;
         size_t _index;

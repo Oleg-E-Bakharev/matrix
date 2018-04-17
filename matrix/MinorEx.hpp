@@ -13,6 +13,7 @@
 #include "ForIterable.hpp"
 #include "Ostreamable.hpp"
 #include "Equitable.hpp"
+#include "Multiplicable.hpp"
 #include "MatrixAdapter.hpp"
 #include <assert.h>
 
@@ -20,8 +21,9 @@ namespace LA {
     
     template<typename Vector> class MinorExIter :
     public ForIterable<MinorExIter<Vector>>,
-    public VectorEquitable<MinorIter<Vector>>,
-    public VectorOstreamable<MinorIter<Vector>>
+    public VectorEquitable<MinorExIter<Vector>>,
+    public VectorOstreamable<MinorExIter<Vector>>,
+    public VectorMultiplicable<MinorExIter<Vector>>
     {
         Vector _vector;
         size_t _index;
@@ -39,14 +41,6 @@ namespace LA {
         size_t size() const { return _vector.size() - _order; }
         const_reference operator[](size_t i) const { return _vector[correctIndex_(i)]; }
         reference operator[](size_t i) { return _vector[correctIndex_(i)]; }
-        
-        // Вывод в поток
-        friend std::ostream& operator << (std::ostream& os, const MinorExIter<Vector>& v) {
-            for ( auto x : v ) {
-                os << std::setw(2) << x << ", ";
-            }
-            return os << std::endl;
-        }
     };
     
     ///////////////////////////////////////////
