@@ -44,7 +44,7 @@ namespace LA {
     };
     
     ///////////////////////////////////////////
-    // Cтрока минора.
+    // Строковый аксессор минора.
     template <typename Matrix> class MinorExRows {
         size_t _row;
         size_t _col;
@@ -64,7 +64,7 @@ namespace LA {
     };
     
     ///////////////////////////////////////////
-    // Столбец минора.
+    // Столбцовый аксессор минора.
     template <typename Matrix> class MinorExCols {
         size_t _row;
         size_t _col;
@@ -83,6 +83,7 @@ namespace LA {
         const_reference operator()(const Matrix& m, size_t i) const { return const_reference(m.col(correctCol_(i)), _row, _order); }
     };
     
+    // Создание минора.
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
     MatrixAdapter<Matrix&&, MinorExRows<ClearMatrix>, MinorExCols<ClearMatrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {
         assert(m.height() >= row + order && m.width() >= col + order);
