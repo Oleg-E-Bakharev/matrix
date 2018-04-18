@@ -14,48 +14,16 @@
 #include "Ostreamable.hpp"
 #include "MatrixAdapter.hpp"
 #include "Multiplicable.hpp"
+#include "IdentityAccessor.h"
 #include <utility>
 
 namespace LA {
     
-    ///////////////////////////////////////////////////////////////////////
-    // Транспонированная строка. т.е. столбец.
-    template <typename Matrix> class TranspondRow :
-    public VectorEquitable<TranspondRow<Matrix>>,
-    public VectorOstreamable<TranspondRow<Matrix>>,
-    public VectorMultiplicable<TranspondRow<Matrix>>
-    {
-    public:
-        using reference = typename Matrix::reference;
-        using const_reference = typename Matrix::const_reference;
-
-        size_t size(const Matrix& m) const { return m.height(); }
-        reference operator()(Matrix& m, size_t i) { return m.col(i); }
-        const_reference operator()(const Matrix& m, size_t i) const { return m.col(i); }
-    };
-
-    ///////////////////////////////////////////////////////////////////////
-    // Транспонированный столбец. т.е. строка.
-    template <typename Matrix> class TranspondCol :
-    public VectorEquitable<TranspondCol<Matrix>>,
-    public VectorOstreamable<TranspondRow<Matrix>>,
-    public VectorMultiplicable<TranspondRow<Matrix>>
-    {
-    public:
-        using reference = typename Matrix::reference;
-        using const_reference = typename Matrix::const_reference;
-        
-        size_t size(const Matrix& m) const { return m.width(); }
-        reference operator()(Matrix& m, size_t i) { return m.row(i); }
-        const_reference operator()(const Matrix& m, size_t i) const { return m.row(i); }
-    };
-    
+    // Возвращаем вместо строк столбцы, а вместо столбцов строки.
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
-    inline MatrixAdapter<Matrix&&, TranspondRow<ClearMatrix>, TranspondCol<ClearMatrix>> transpond(Matrix&& m) {
+    inline MatrixAdapter<Matrix&&, IdentifyColAccessor<ClearMatrix>, IdentifyRowAccessor<ClearMatrix>> transpond(Matrix&& m) {
         return {std::forward<Matrix>(m), {}, {}};
     }
-    
-
 } // namespace LA
     
 #endif /* transpond_h */

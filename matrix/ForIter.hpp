@@ -29,7 +29,7 @@ public:
 template<class Collection> ForIter<Collection> forIter(Collection& col) { return {col}; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// То же но константный.
+// То же но константный. Шаблоны нельзя параметризовать или специализировать константными типами.
 template <typename Collection> class ConstForIter {
     const Collection& _col;
     size_t _pos;

@@ -45,7 +45,7 @@ namespace LA {
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////
     // Cтрока минора.
-    template <typename Matrix> class MinorRow {
+    template <typename Matrix> class MinorRows {
         size_t _row;
         size_t _col;
         
@@ -56,7 +56,7 @@ namespace LA {
         using const_reference = MinorIter<typename Matrix::const_reference>;
   
         // std::forward необходимо применять для правильной инициализации базы l-value или r-value ссылкой.
-        MinorRow(size_t row, size_t col) : _row(row), _col(col) {}
+        MinorRows(size_t row, size_t col) : _row(row), _col(col) {}
 
         size_t size(const Matrix& m) const { return m.width() - 1; }
         reference operator()(Matrix& m, size_t i) { return {m.row(correctRow_(i)), _col}; }
@@ -65,7 +65,7 @@ namespace LA {
     
     ////////////////////////////////////////////////////////////////
     // Столбец минора.
-    template <typename Matrix> class MinorCol {
+    template <typename Matrix> class MinorCols {
         size_t _row;
         size_t _col;
         
@@ -76,7 +76,7 @@ namespace LA {
         using const_reference = MinorIter<typename Matrix::const_reference>;
         
         // std::forward необходимо применять для правильной инициализации базы l-value или r-value ссылкой.
-        MinorCol(size_t row, size_t col) : _row(row), _col(col) {}
+        MinorCols(size_t row, size_t col) : _row(row), _col(col) {}
 
         size_t size(const Matrix& m) const { return m.height() - 1; }
         reference operator()(Matrix& m, size_t i) { return {m.col(correctCol_(i)), _row}; }
@@ -87,7 +87,7 @@ namespace LA {
     // Создание минора.
     // std::forward необходимо применять для правильной инициализации базы l-value или r-value ссылкой.
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
-    MatrixAdapter<Matrix&&, MinorRow<ClearMatrix>, MinorCol<ClearMatrix>> minor(Matrix&& m, size_t row, size_t col) {
+    MatrixAdapter<Matrix&&, MinorRows<ClearMatrix>, MinorCols<ClearMatrix>> minor(Matrix&& m, size_t row, size_t col) {
         assert(m.height() >= row + 1 && m.width() >= col + 1);
         return {{std::forward<Matrix>(m)}, {row, col}, {row, col}};
     }

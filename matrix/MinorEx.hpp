@@ -45,7 +45,7 @@ namespace LA {
     
     ///////////////////////////////////////////
     // Cтрока минора.
-    template <typename Matrix> class MinorExRow {
+    template <typename Matrix> class MinorExRows {
         size_t _row;
         size_t _col;
         size_t _order;
@@ -56,7 +56,7 @@ namespace LA {
         using reference = MinorExIter<typename Matrix::reference>;
         using const_reference = MinorExIter<typename Matrix::const_reference>;
         
-        MinorExRow(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
+        MinorExRows(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
         
         size_t size(const Matrix& m) const { return m.width() - _order; }
         reference operator()(Matrix& m, size_t i) { return reference(m.row(correctRow_(i)), _col, _order); }
@@ -65,7 +65,7 @@ namespace LA {
     
     ///////////////////////////////////////////
     // Столбец минора.
-    template <typename Matrix> class MinorExCol {
+    template <typename Matrix> class MinorExCols {
         size_t _row;
         size_t _col;
         size_t _order;
@@ -76,7 +76,7 @@ namespace LA {
         using reference = MinorExIter<typename Matrix::reference>;
         using const_reference = MinorExIter<typename Matrix::const_reference>;
         
-        MinorExCol(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
+        MinorExCols(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
         
         size_t size(const Matrix& m) const { return m.height() - _order; }
         reference operator()(Matrix& m, size_t i) { return reference(m.col(correctCol_(i)), _row, _order); }
@@ -84,7 +84,7 @@ namespace LA {
     };
     
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
-    MatrixAdapter<Matrix&&, MinorExRow<ClearMatrix>, MinorExCol<ClearMatrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {
+    MatrixAdapter<Matrix&&, MinorExRows<ClearMatrix>, MinorExCols<ClearMatrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {
         assert(m.height() >= row + order && m.width() >= col + order);
         return {m, {row, col, order}, {row, col, order}};
     }

@@ -18,6 +18,7 @@
 #include "Equitable.hpp"
 #include "Multiplicable.hpp"
 #include "SliceIter.hpp"
+#include "ColIter.hpp"
 
 namespace LA {
     
@@ -73,7 +74,10 @@ namespace LA {
         reference operator[] (size_t y) { return row(y); }
         const_reference operator[] (size_t y) const { return row(y); }
         
-        size_t size() const { return _h; }        
+        size_t size() const { return _h; }
+        
+        ColIterator<Matrix_T> columns() { return {*this}; }
+        ConstColIterator<Matrix_T> columns() const { return {*this}; }
     };
     
     template <typename T>

@@ -35,13 +35,18 @@ namespace LA {
             return _vector[k];
         }
         
-        const reference operator[](size_t k) const {
+        const_reference operator[](size_t k) const {
             if (k == _i) return _vector[_j];
             if (k == _j) return _vector[_i];
             return _vector[k];
         }
     };
     
+    template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
+    inline MatrixAdapter<Matrix&&, TranspondRows<ClearMatrix>, TranspondCols<ClearMatrix>> transpond(Matrix&& m) {
+        return {std::forward<Matrix>(m), {}, {}};
+    }
+
 } // namespace LA
 
 #endif /* Exchange_h */
