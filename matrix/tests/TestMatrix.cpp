@@ -11,6 +11,7 @@
 #include "Transpond.hpp"
 #include "Minor.hpp"
 #include "MinorEx.hpp"
+#include "Exchange.hpp"
 #include <vector>
 #include "Debug.hpp"
 

@@ -83,6 +83,7 @@ namespace LA {
         const_reference operator()(const Matrix& m, size_t i) const { return const_reference(m.col(correctCol_(i)), _row, _order); }
     };
     
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Создание минора.
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
     MatrixAdapter<Matrix&&, MinorExRows<ClearMatrix>, MinorExCols<ClearMatrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {

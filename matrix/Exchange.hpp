@@ -10,13 +10,22 @@
 #ifndef Exchange_h
 #define Exchange_h
 
-#include "ForIterable.h"
+#include "ForIterable.hpp"
+#include "Ostreamable.hpp"
+#include "Equitable.hpp"
+#include "Multiplicable.hpp"
 #include <assert.h>
 
 namespace LA {
     
+    ///////////////////////////////////////////////////////////////////////////////////////////////
     // Вектор с перестановкой i, j индексов.
-    template<typename Vector> class ExchangeIter : public ForIterable<ExchangeIter<Vector>> {
+    template<typename Vector> class ExchangeIter :
+    public ForIterable<ExchangeIter<Vector>>,
+    public VectorEquitable<ExchangeIter<Vector>>,
+    public VectorOstreamable<ExchangeIter<Vector>>,
+    public VectorMultiplicable<ExchangeIter<Vector>>
+    {
         Vector _vector;
         size_t _i;
         size_t _j;
@@ -52,37 +61,44 @@ namespace LA {
         using reference = ExchangeIter<typename Matrix::reference>;
         using const_reference = ExchangeIter<typename Matrix::const_reference>;
         
-        // std::forward необходимо применять для правильной инициализации базы l-value или r-value ссылкой.
-        MinorRows(size_t i, size_t j) : _i(i), _j(j) {}
+        ExchangeRows(size_t i, size_t j) : _i(i), _j(j) {}
         
         size_t size(const Matrix& m) const { return m.height(); }
         reference operator()(Matrix& m, size_t i) { return {m.row(i), _i, _j}; }
         const_reference operator()(const Matrix& m, size_t i) const { return {m.row(i), _i, _j}; }
     };
     
-    ////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
     // Столбцовый аксессор перестановщика.
     template <typename Matrix> class ExchangeCols {
-        size_t _row;
-        size_t _col;
-        
-        size_t correctCol_(size_t i) const { return i < _col ? i : i + 1; }
+        size_t _i;
+        size_t _j;
         
     public:
-        using reference = MinorIter<typename Matrix::reference>;
-        using const_reference = MinorIter<typename Matrix::const_reference>;
+        using reference = ExchangeIter<typename Matrix::reference>;
+        using const_reference = ExchangeIter<typename Matrix::const_reference>;
+
+        ExchangeCols(size_t i, size_t j) : _i(i), _j(j) {}
         
-        // std::forward необходимо применять для правильной инициализации базы l-value или r-value ссылкой.
-        MinorCols(size_t row, size_t col) : _row(row), _col(col) {}
-        
-        size_t size(const Matrix& m) const { return m.height() - 1; }
-        reference operator()(Matrix& m, size_t i) { return {m.col(correctCol_(i)), _row}; }
-        const_reference operator()(const Matrix& m, size_t i) const { return {m.col(correctCol_(i)), _row}; }
+        size_t size(const Matrix& m) const { return m.width(); }
+        reference operator()(Matrix& m, size_t i) { return {m.col(i), _i, _j}; }
+        const_reference operator()(const Matrix& m, size_t i) const { return {m.col(i), _i, _j}; }
     };
     
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Exchange Rows
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
-    inline MatrixAdapter<Matrix&&, TranspondRows<ClearMatri	x>, TranspondCols<ClearMatrix>> exchangeRows(Matrix&& m, size_t i, size_t j) {
-        return {std::forward<Matrix>(m), {}, {}};
+    inline MatrixAdapter<Matrix&&, ExchangeRows<ClearMatrix>, IdentifyColAccessor<ClearMatrix>>
+    exchangeRows(Matrix&& m, size_t i, size_t j) {
+        return {std::forward<Matrix>(m), {i, j}, {}};
+    }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    // Exchange Cols
+    template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
+    inline MatrixAdapter<Matrix&&, IdentifyRowAccessor<ClearMatrix>, ExchangeCols<ClearMatrix>>
+    exchangeRows(Matrix&& m, size_t i, size_t j) {
+        return {std::forward<Matrix>(m), {}, {i, j}};
     }
 
 } // namespace LA

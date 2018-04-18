@@ -41,7 +41,7 @@
 		C3B27B7D207E7B95000D96E8 /* ForIterable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ForIterable.hpp; sourceTree = "<group>"; };
 		C3B27B7E207E8D48000D96E8 /* MinorEx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MinorEx.hpp; sourceTree = "<group>"; };
 		C3B27B7F207EAF9B000D96E8 /* Determinant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Determinant.hpp; sourceTree = "<group>"; };
-		C3B27B9220810306000D96E8 /* Exchange.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exchange.h; sourceTree = "<group>"; };
+		C3B27B9220810306000D96E8 /* Exchange.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Exchange.hpp; sourceTree = "<group>"; };
 		C3B27B9320810B3D000D96E8 /* Ostreamable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ostreamable.hpp; sourceTree = "<group>"; };
 		C3B3FB2020813B5A00C2E3B2 /* Equitable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Equitable.hpp; sourceTree = "<group>"; };
 		C3B3FB21208518CD00C2E3B2 /* CopylessHolder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CopylessHolder.hpp; sourceTree = "<group>"; };
@@ -92,7 +92,7 @@
 				C3B27B78207E3630000D96E8 /* Transpond.hpp */,
 				C3B27B7A207E463B000D96E8 /* Minor.hpp */,
 				C3B27B7E207E8D48000D96E8 /* MinorEx.hpp */,
-				C3B27B9220810306000D96E8 /* Exchange.h */,
+				C3B27B9220810306000D96E8 /* Exchange.hpp */,
 				C3B27B7F207EAF9B000D96E8 /* Determinant.hpp */,
 				7C3EBAC91E47E8E6002D7D01 /* main.cpp */,
 				7C8176A8207D761B00A6A2D5 /* tests */,

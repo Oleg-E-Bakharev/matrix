@@ -83,7 +83,7 @@ namespace LA {
         const_reference operator()(const Matrix& m, size_t i) const { return {m.col(correctCol_(i)), _row}; }
     };
     
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////
     // Создание минора.
     // std::forward необходимо применять для правильной инициализации базы l-value или r-value ссылкой.
     template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
