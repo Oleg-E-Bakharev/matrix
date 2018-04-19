@@ -18,6 +18,7 @@
 #include "TestTranspond.hpp"
 #include "TestSwap.hpp"
 #include "TestMinor.hpp"
+#include "TestMinorEx.hpp"
 
 using namespace std;
 using namespace LA;
@@ -47,15 +48,8 @@ void testMatrix() {
     testExchange(m);
 
     testMinor(m);
-    
-    auto m4 = minorEx(m, 0, 0, 2);
-    cout << m4;
-    assert(m4 == Matrix<int>({{99}}));
-    assert(minorEx(m, 1, 1, 2) == Matrix<int>({{1}}));
-    
-    auto m6(std::move(m));
-    
-    cout << m6;
+
+    testMinorEx(m);
     // cout << m; Fails!
 //    cout << m * m;
 //

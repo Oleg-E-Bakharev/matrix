@@ -15,6 +15,7 @@
 #include "Equitable.hpp"
 #include "Multiplicable.hpp"
 #include "MatrixAdapter.hpp"
+#include <vector>
 #include <assert.h>
 
 namespace LA {
@@ -26,70 +27,66 @@ namespace LA {
     public VectorMultiplicable<MinorExIter<Vector>>
     {
         Vector _vector;
-        size_t _index;
-        size_t _order;
-        
-        size_t correctIndex_(size_t i) const { return i < _index ? i : i + _order; }
+        const std::vector<size_t>& _order;
         
     public:
         using value_type = typename Vector::value_type;
         using reference = typename Vector::reference;
         using const_reference = typename Vector::const_reference;
         
-        MinorExIter(const Vector& v, size_t i, size_t o) : _vector(v), _index(i), _order(o) {}
+        MinorExIter(const Vector& v, const std::vector<size_t>& o) : _vector(v), _order(o) {}
         
-        size_t size() const { return _vector.size() - _order; }
-        const_reference operator[](size_t i) const { return _vector[correctIndex_(i)]; }
-        reference operator[](size_t i) { return _vector[correctIndex_(i)]; }
+        size_t size() const { return _order.size(); }
+        const_reference operator[](size_t i) const { return _vector[_order[i]]; }
+        reference operator[](size_t i) { return _vector[_order[i]]; }
     };
     
     ///////////////////////////////////////////
     // Строковый аксессор минора.
     template <typename Matrix> class MinorExRows {
-        size_t _row;
-        size_t _col;
-        size_t _order;
-        
-        size_t correctRow_(size_t i) const { return i < _row ? i : i + _order; }
+        using Vector = std::vector<size_t>;
+        Vector _rowOrder;
+        Vector _colOrder;
         
     public:
         using reference = MinorExIter<typename Matrix::reference>;
         using const_reference = MinorExIter<typename Matrix::const_reference>;
         
-        MinorExRows(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
+        MinorExRows(const Vector& rowOrder, const Vector& colOrder) : _rowOrder(rowOrder), _colOrder(colOrder) {}
         
-        size_t size(const Matrix& m) const { return m.width() - _order; }
-        reference operator()(Matrix& m, size_t i) { return reference(m.row(correctRow_(i)), _col, _order); }
-        const_reference operator()(const Matrix& m, size_t i) const { return const_reference(m.row(correctRow_(i)), _col, _order); }
+        size_t size(const Matrix& m) const { return _rowOrder.size(); }
+        reference operator()(Matrix& m, size_t i) { return {m.row(_rowOrder[i]), _colOrder}; }
+        const_reference operator()(const Matrix& m, size_t i) const { return {m.row(_rowOrder[i]), _colOrder}; }
     };
     
     ///////////////////////////////////////////
     // Столбцовый аксессор минора.
     template <typename Matrix> class MinorExCols {
-        size_t _row;
-        size_t _col;
-        size_t _order;
-        
-        size_t correctCol_(size_t i) const { return i < _col ? i : i + _order; }
-        
+        using Vector = std::vector<size_t>;
+        Vector _rowOrder;
+        Vector _colOrder;
+
     public:
         using reference = MinorExIter<typename Matrix::reference>;
         using const_reference = MinorExIter<typename Matrix::const_reference>;
         
-        MinorExCols(size_t row, size_t col, size_t order) : _row(row), _col(col), _order(order) {}
+        MinorExCols(const Vector& rowOrder, const Vector& colOrder) : _rowOrder(rowOrder), _colOrder(colOrder) {}
         
-        size_t size(const Matrix& m) const { return m.height() - _order; }
-        reference operator()(Matrix& m, size_t i) { return reference(m.col(correctCol_(i)), _row, _order); }
-        const_reference operator()(const Matrix& m, size_t i) const { return const_reference(m.col(correctCol_(i)), _row, _order); }
+        size_t size(const Matrix& m) const { return _colOrder.size(); }
+        reference operator()(Matrix& m, size_t i) { return {m.col(_colOrder[i]), _rowOrder}; }
+        const_reference operator()(const Matrix& m, size_t i) const { return {m.col(_colOrder[i]), _rowOrder}; }
     };
     
     ///////////////////////////////////////////////////////////////////////////////////////////////
     // Создание минора.
-    template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
-    MatrixAdapter<Matrix&&, MinorExRows<ClearMatrix>, MinorExCols<ClearMatrix>> minorEx(Matrix&& m, size_t row, size_t col, size_t order) {
-        assert(m.height() >= row + order && m.width() >= col + order);
-        return {m, {row, col, order}, {row, col, order}};
-    }
+            template <typename Matrix, typename ClearMatrix = typename std::remove_reference<Matrix>::type>
+            MatrixAdapter<Matrix&&, MinorExRows<ClearMatrix>, MinorExCols<ClearMatrix>> minorEx(Matrix&& m,
+                                                                                                std::vector<size_t> rowOrder,
+                                                                                                std::vector<size_t> colOrder)
+            {
+                assert(m.height() >= rowOrder.size() && m.width() >= colOrder.size());
+                return {m, {rowOrder, colOrder}, {rowOrder, colOrder}};
+            }
 
 } // namespace LA
 #endif /* MinorEx_h */
