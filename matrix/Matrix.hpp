@@ -34,7 +34,7 @@ namespace LA {
         Container _m;
         
     public:
-        using T = typename Container::value_type;
+        using element_type = typename Container::value_type;
         using vector = SliceIter<Container>;
         using instance_type = Matrix_T;
         using value_type = vector;
@@ -42,20 +42,20 @@ namespace LA {
         using const_reference = ConstSliceIter<Container>;
         
         Matrix_T(size_t h, size_t w) : _h(h), _w(w), _m(w * h) {}
-        Matrix_T(size_t h, size_t w, T def) : _h(h), _w(w), _m(w * h, def) {}
+        Matrix_T(size_t h, size_t w, element_type def) : _h(h), _w(w), _m(w * h, def) {}
         ~Matrix_T() { debugOut2("~Matrix_T", 99); }
         
         explicit Matrix_T(const Matrix_T&) = default;
         Matrix_T(Matrix_T&&) = default;
         
-        Matrix_T(std::initializer_list<std::initializer_list<T>> l) : _h(l.size()),
+        Matrix_T(std::initializer_list<std::initializer_list<element_type>> l) : _h(l.size()),
         _w(_h > 0 ? l.begin()->size() : 0),
         _m(_h * _w)
         {
             size_t pos = 0;
-            for( std::initializer_list<T> const& rowList : l ) {
+            for( std::initializer_list<element_type> const& rowList : l ) {
                 assert(rowList.size() == _w);
-                for( const T& value : rowList) {
+                for( const element_type& value : rowList) {
                     _m[pos] = value;
                     pos++;
                 }

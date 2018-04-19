@@ -34,6 +34,7 @@ namespace LA {
         ColsAccessor _colsAccessor;
         RowsAccessor _rowsAccessor;
     public:
+        using element_type = typename ClearMatrix::element_type;
         using instance_type = typename ClearMatrix::instance_type;
         using value_type = typename ClearMatrix::value_type;
         using reference = typename RowsAccessor::reference;

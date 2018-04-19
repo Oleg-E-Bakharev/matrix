@@ -19,6 +19,7 @@
 #include "TestSwap.hpp"
 #include "TestMinor.hpp"
 #include "TestMinorEx.hpp"
+#include "TestDet.hpp"
 
 using namespace std;
 using namespace LA;
@@ -50,6 +51,8 @@ void testMatrix() {
     testMinor(m);
 
     testMinorEx(m);
+    
+    testDet(m);
     // cout << m; Fails!
 //    cout << m * m;
 //
