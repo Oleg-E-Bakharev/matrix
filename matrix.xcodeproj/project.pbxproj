@@ -34,6 +34,9 @@
 		C34983AC2086574500403FE9 /* Multiplicable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Multiplicable.hpp; sourceTree = "<group>"; };
 		C34A4C5320877F3E00F766CF /* ColIter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ColIter.hpp; sourceTree = "<group>"; };
 		C34A4C542087835400F766CF /* IdentityAccessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IdentityAccessor.h; sourceTree = "<group>"; };
+		C34A4C5B2088E65000F766CF /* TestTranspond.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TestTranspond.hpp; sourceTree = "<group>"; };
+		C34A4C5D2088E7F500F766CF /* TestMinor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TestMinor.hpp; sourceTree = "<group>"; };
+		C34A4C5E2088EA0D00F766CF /* TestSwap.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = TestSwap.hpp; sourceTree = "<group>"; };
 		C3B27B77207E2DB6000D96E8 /* MatrixAdapter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MatrixAdapter.hpp; sourceTree = "<group>"; };
 		C3B27B78207E3630000D96E8 /* Transpond.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Transpond.hpp; sourceTree = "<group>"; };
 		C3B27B79207E3D6C000D96E8 /* SliceIter.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SliceIter.hpp; sourceTree = "<group>"; };
@@ -41,7 +44,7 @@
 		C3B27B7D207E7B95000D96E8 /* ForIterable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ForIterable.hpp; sourceTree = "<group>"; };
 		C3B27B7E207E8D48000D96E8 /* MinorEx.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = MinorEx.hpp; sourceTree = "<group>"; };
 		C3B27B7F207EAF9B000D96E8 /* Determinant.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Determinant.hpp; sourceTree = "<group>"; };
-		C3B27B9220810306000D96E8 /* Exchange.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Exchange.hpp; sourceTree = "<group>"; };
+		C3B27B9220810306000D96E8 /* SwapRowsCols.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = SwapRowsCols.hpp; sourceTree = "<group>"; };
 		C3B27B9320810B3D000D96E8 /* Ostreamable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Ostreamable.hpp; sourceTree = "<group>"; };
 		C3B3FB2020813B5A00C2E3B2 /* Equitable.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Equitable.hpp; sourceTree = "<group>"; };
 		C3B3FB21208518CD00C2E3B2 /* CopylessHolder.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = CopylessHolder.hpp; sourceTree = "<group>"; };
@@ -92,7 +95,7 @@
 				C3B27B78207E3630000D96E8 /* Transpond.hpp */,
 				C3B27B7A207E463B000D96E8 /* Minor.hpp */,
 				C3B27B7E207E8D48000D96E8 /* MinorEx.hpp */,
-				C3B27B9220810306000D96E8 /* Exchange.hpp */,
+				C3B27B9220810306000D96E8 /* SwapRowsCols.hpp */,
 				C3B27B7F207EAF9B000D96E8 /* Determinant.hpp */,
 				7C3EBAC91E47E8E6002D7D01 /* main.cpp */,
 				7C8176A8207D761B00A6A2D5 /* tests */,
@@ -105,6 +108,9 @@
 			children = (
 				7C8176AA207D763A00A6A2D5 /* TestMatrix.hpp */,
 				7C8176A9207D763A00A6A2D5 /* TestMatrix.cpp */,
+				C34A4C5B2088E65000F766CF /* TestTranspond.hpp */,
+				C34A4C5E2088EA0D00F766CF /* TestSwap.hpp */,
+				C34A4C5D2088E7F500F766CF /* TestMinor.hpp */,
 			);
 			path = tests;
 			sourceTree = "<group>";

@@ -52,8 +52,8 @@ namespace LA {
         reference row(size_t i) { return _rowsAccessor(data, i); }
         const_reference row(size_t i) const { return _rowsAccessor(data, i); }
         
-        reference col(size_t j) { return _colsAccessor(data, j); }
-        const_reference col(size_t j) const { return _colsAccessor(data, j); }
+        typename ColsAccessor::reference col(size_t j) { return _colsAccessor(data, j); }
+        typename ColsAccessor::const_reference col(size_t j) const { return _colsAccessor(data, j); }
         
         reference operator[](size_t i) { return row(i); }
         const_reference operator[](size_t i) const { return row(i); }

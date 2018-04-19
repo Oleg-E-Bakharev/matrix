@@ -10,16 +10,8 @@
 #ifndef IdentityAccessor_h
 #define IdentityAccessor_h
 
-#include "Equitable.hpp"
-#include "Ostreamable.hpp"
-#include "MatrixAdapter.hpp"
-#include "Multiplicable.hpp"
-
 namespace LA {
-    template <typename Matrix> class IdentifyRowAccessor :
-    public VectorEquitable<IdentifyRowAccessor<Matrix>>,
-    public VectorOstreamable<IdentifyRowAccessor<Matrix>>,
-    public VectorMultiplicable<IdentifyRowAccessor<Matrix>>
+    template <typename Matrix> class IdentifyRowAccessor
     {
     public:
         using reference = typename Matrix::reference;
@@ -30,10 +22,7 @@ namespace LA {
         const_reference operator()(const Matrix& m, size_t i) const { return m.row(i); }
     };
     
-    template <typename Matrix> class IdentifyColAccessor :
-    public VectorEquitable<IdentifyColAccessor<Matrix>>,
-    public VectorOstreamable<IdentifyColAccessor<Matrix>>,
-    public VectorMultiplicable<IdentifyColAccessor<Matrix>>
+    template <typename Matrix> class IdentifyColAccessor
     {
     public:
         using reference = typename Matrix::reference;

@@ -11,9 +11,13 @@
 #include "Transpond.hpp"
 #include "Minor.hpp"
 #include "MinorEx.hpp"
-#include "Exchange.hpp"
+#include "SwapRowsCols.hpp"
 #include <vector>
 #include "Debug.hpp"
+
+#include "TestTranspond.hpp"
+#include "TestSwap.hpp"
+#include "TestMinor.hpp"
 
 using namespace std;
 using namespace LA;
@@ -21,7 +25,6 @@ using namespace LA;
 void testMatrix() {
     
     using M = Matrix<int>;
-    using V = vector<int>;
     M m{
         {1, 2, 3},
         {4, 5, 6},
@@ -34,49 +37,26 @@ void testMatrix() {
     m[1][1] = 10;
     
     cout << m;
-    cout << "Transpond:\n"<< transpond(m);
-    auto m1 = transpond(m);
-    assert(m1 == M({
+
+    testTranspond(m, M{
         {1, 4, 7},
         {2, 10, 8},
         {3, 6, 9}
-    }));
-    assert(m == transpond(m1));
-    assert(m == transpond(transpond(m)));
+    });
     
-    cout << m * transpond(m);
+    testExchange(m);
 
-    cout << "Minor 0, 0:\n" << minor(m, 0, 0);
-    cout << "Minor 2, 2:\n" << minor(m, 2, 2);
-
-    cout << "Minor 0, 0 * minor 2, 2:\n" << minor(m, 0, 0) * minor(m, 2, 2);
-    
-    auto m2 = minor(m, 1, 1);
-    cout << "col 1:" << m2.col(1);
-    assert(m2.col(1) == V({3, 9}));
-    cout << "row 1:" <<  m2.row(1);
-    assert(m2.row(1) == V({7, 9}));
-    assert(m2 == M({{1, 3}, {7, 9}}));
-
-    cout << "\nMinor transpond:\n" << minor(transpond(m), 1, 1);
-    
-    auto m3 = minor(transpond(m), 1, 1);
-    m3[1][1] = 99;
-    
-    auto m5 = m3.clone();
-    cout << m5;
-    
-    cout << "Minor transpond modified:\n" << m3;
-    cout << "Initial matrix after transpond minor changed:\n" << m;
+    testMinor(m);
     
     auto m4 = minorEx(m, 0, 0, 2);
     cout << m4;
     assert(m4 == Matrix<int>({{99}}));
     assert(minorEx(m, 1, 1, 2) == Matrix<int>({{1}}));
     
-    Matrix<int> m6(std::move(m));
+    auto m6(std::move(m));
     
     cout << m6;
+    // cout << m; Fails!
 //    cout << m * m;
 //
 //    cout << m * m1;
