@@ -18,7 +18,7 @@ template <typename Matrix> class DeterminantDefault {
     T _det = 0;
     
     // -1^i
-    template <typename T> T m1pow_(size_t i) {
+    T m1pow_(size_t i) {
         if (i % 2 == 0) return T(1);
         return T(-1);
     }
@@ -38,7 +38,7 @@ template <typename Matrix> class DeterminantDefault {
             // Разрыв бесконечного зацикливания компилятора.
             auto min = minor(m, 0, i);
             auto *minp = reinterpret_cast<Matrix2*>(&min);
-            det += m1pow_<T>(i) * m[0][i] * detDefA_(*minp);
+            det += m1pow_(i) * m[0][i] * detDefA_(*minp);
         }
         return det;
     }
@@ -53,7 +53,7 @@ public:
         }
         for (size_t i = 0; i < m.size(); i++) {
             auto min = minor(m, 0, i);
-            _det += m1pow_<T>(i) * m[0][i] * detDefA_(minor(m, 0, i));
+            _det += m1pow_(i) * m[0][i] * detDefA_(minor(m, 0, i));
         }
     }
     
