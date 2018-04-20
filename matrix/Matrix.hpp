@@ -78,6 +78,8 @@ namespace LA {
         
         ColIterator<Matrix_T> columns() { return {*this}; }
         ConstColIterator<Matrix_T> columns() const { return {*this}; }
+        
+        static constexpr size_t generation() { return 0; }
     };
     
     template <typename T>

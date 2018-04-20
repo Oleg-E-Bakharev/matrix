@@ -22,10 +22,6 @@ void testMinorEx(M& m)
     assert(m4 == Matrix<int>({{1, 2}, {4, 10}}));
     assert(minorEx(m, {1, 2}, {1, 2}) == M({{10, 6}, {8, 99}}));
     assert(minorEx(m, {0, 2}, {0, 2}) == M({{1, 3}, {7, 99}}));
-    
-    auto m6(std::move(m));
-    
-    cout << m6;
 }
 
 #endif /* TestMinorEx_h */

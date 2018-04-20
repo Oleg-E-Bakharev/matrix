@@ -15,7 +15,9 @@ using namespace std;
 using namespace LA;
 
 template <typename M> void testDet(const M& m) {
-    cout << "Determinant:\n" << m << "is: " << detDef(m) << "\n";
+    cout << "Determinant of:\n" << m;
+    auto det = detDef(m);
+    cout << "is: " << det << "\n";
 }
 
 #endif /* testDet_h */

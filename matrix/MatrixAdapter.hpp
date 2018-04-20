@@ -71,6 +71,8 @@ namespace LA {
             }
             return instance;
         }
+        
+        static constexpr size_t generation() { return std::remove_reference<Matrix>::type::generation() + 1; }
     };
     
 } // namespace LA
