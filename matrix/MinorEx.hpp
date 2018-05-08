@@ -5,7 +5,7 @@
 //  Created by Oleg Bakharev on 11/04/2018.
 //  Copyright © 2018 Oleg Bakharev. All rights reserved.
 //
-//  Минор произвольного порядка.
+//  Минор произвольного порядка. Подходит для перестановки строк/столбцов.
 
 #ifndef MinorEx_h
 #define MinorEx_h
@@ -26,8 +26,8 @@ namespace LA {
     public VectorOstreamable<MinorExIter<Vector>>,
     public VectorMultiplicable<MinorExIter<Vector>>
     {
-        Vector _vector;
-        const std::vector<size_t>& _order;
+        Vector _vector; // SliceIter.
+        const std::vector<size_t>& _order; // вектор индексов выборки строк/столбцов исходной матрицы.
         
     public:
         using value_type = typename Vector::value_type;

@@ -45,7 +45,6 @@ void testMatrix() {
         {2, 10, 8},
         {3, 6, 9}
     });
-    
     testExchange(m);
 
     testMinor(m);

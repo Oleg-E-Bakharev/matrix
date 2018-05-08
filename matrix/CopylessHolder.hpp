@@ -30,9 +30,10 @@ public:
 template <typename Data> class CopylessHolder<Data&&> {
 public:
     Data data;
-    CopylessHolder(Data&& data) : data(data) {debugOut2("CopylessHolder &&", 100);}
+    CopylessHolder(Data&& data) : data(std::move(data)) {debugOut2("CopylessHolder &&", 100);}
     CopylessHolder(const CopylessHolder& c) = delete;
-    CopylessHolder(CopylessHolder&& c) : data(c.data) { debugOut2("CopylessHolder && move", 100); }
+    CopylessHolder(CopylessHolder&& c) : data(std::move(c.data)) { debugOut2("CopylessHolder && move", 100); }
+    void operator=(const CopylessHolder& c) = delete;
 };
 
 #endif /* CopylessHolder_h */

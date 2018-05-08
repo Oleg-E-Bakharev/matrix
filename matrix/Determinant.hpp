@@ -12,6 +12,8 @@
 #include "Minor.hpp"
 #include <assert.h>
 
+#include <random>
+
 // Вычисление определителя матрицы по определению.
 template <typename Matrix> class DeterminantDefault {
     using T = typename Matrix::element_type;
@@ -53,7 +55,7 @@ public:
         }
         for (size_t i = 0; i < m.size(); i++) {
             auto min = minor(m, 0, i);
-            _det += m1pow_(i) * m[0][i] * detDefA_(minor(m, 0, i));
+            _det += m1pow_(i) * m[0][i] * detDefA_(min);
         }
     }
     

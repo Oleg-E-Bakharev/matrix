@@ -21,7 +21,7 @@
 namespace LA {
     
     // Matrix: матрица или другой адаптер.
-    template<typename Matrix, typename RowsAccessor, typename ColsAccessor> class MatrixAdapter : CopylessHolder<Matrix>,
+    template<typename Matrix, typename RowsAccessor, typename ColsAccessor> class MatrixAdapter : private CopylessHolder<Matrix>,
     public ForIterable<MatrixAdapter<Matrix, RowsAccessor, ColsAccessor>>,
     public MatrixOstreamable<MatrixAdapter<Matrix, RowsAccessor, ColsAccessor>>,
     public MatrixEquitable<MatrixAdapter<Matrix, RowsAccessor, ColsAccessor>>,

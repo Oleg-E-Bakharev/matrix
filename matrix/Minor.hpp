@@ -26,8 +26,8 @@ namespace LA {
     public VectorOstreamable<MinorIter<Vector>>,
     public VectorMultiplicable<MinorIter<Vector>>
     {
-        Vector _vector;
-        size_t _index;
+        Vector _vector; // SliceIter.
+        size_t _index; // Индекс вычеркнутой строки/столбца.
         
         size_t correctIndex_(size_t i) const { return i < _index ? i : i + 1; }
         

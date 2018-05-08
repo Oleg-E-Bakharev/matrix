@@ -23,7 +23,6 @@ public:
     using ConstForIter = ConstForIter<T>;
     ConstForIter begin() const { return {static_cast<const T&>(*this)}; }
     ConstForIter end() const { return {static_cast<const T&>(*this)}; }
-    
 };
 
 #endif /* ForIterable_h */
